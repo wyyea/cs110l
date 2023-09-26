@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Armin Namavari <arminn@stanford.edu>"]
 
 [dependencies]
+sprintf = "0.1.4"

@@ -43,25 +43,27 @@ fn main() {
     let mut correct_hs: HashSet<char> = HashSet::new();
     let mut times = 0;
 
-    for &c in secret_word_chars.iter(){
+    for &c in secret_word_chars.iter() {
         correct_hs.insert(c);
     }
 
-    while times < NUM_INCORRECT_GUESSES && correct_hs.len() > 0{
+    while times < NUM_INCORRECT_GUESSES && correct_hs.len() > 0 {
         print!("The word so far is ");
-        for c in secret_word_chars.iter(){
-            print!("{}", if hs.contains(c) {*c} else {'-'});
+        for c in secret_word_chars.iter() {
+            print!("{}", if hs.contains(c) { *c } else { '-' });
         }
         print!("\nYou have guessed the following letters: ");
-        for c in hs.iter(){
+        for c in hs.iter() {
             print!("{}", *c);
         }
         println!("\nYou have {} guess left", NUM_INCORRECT_GUESSES - times);
         print!("Please guess a letter: ");
         io::stdout().flush().expect("Error flushing stdout.");
         let mut guess = String::new();
-        io::stdin().read_line(&mut guess).expect("Error reading line.");
-        let guess: char = match guess.trim().parse(){
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Error reading line.");
+        let guess: char = match guess.trim().parse() {
             Ok(c) => c,
             Err(_) => {
                 print!("input is not a legal character!\n\n");
@@ -69,21 +71,24 @@ fn main() {
                 continue;
             }
         };
-        if hs.contains(&guess){
+        if hs.contains(&guess) {
             times += 1;
             print!("You can not guess one character more than once\n\n");
-        }else if correct_hs.contains(&guess){
+        } else if correct_hs.contains(&guess) {
             correct_hs.remove(&guess);
             println!();
-        }else{
+        } else {
             times += 1;
             print!("Sorry, that letter is not in the word\n\n");
         }
         hs.insert(guess);
     }
-    if times >= NUM_INCORRECT_GUESSES{
+    if times >= NUM_INCORRECT_GUESSES {
         println!("Sorry, you ran out of guesses!");
-    }else{
-        println!("Congratulations you guessed the secret word: {}", secret_word);
+    } else {
+        println!(
+            "Congratulations you guessed the secret word: {}",
+            secret_word
+        );
     }
 }
